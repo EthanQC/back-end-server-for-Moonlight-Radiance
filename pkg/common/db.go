@@ -18,7 +18,6 @@ func InitDB(dsn string) error {
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("could not connect to db: %v", err)
-		return err
 	}
 	log.Println(("Database connected successfully"))
 	return nil
@@ -26,6 +25,12 @@ func InitDB(dsn string) error {
 
 // CloseDB 关闭数据库连接
 func CloseDB() {
-	db, _ := DB.DB()
-	db.Close()
+
+	db, err := DB.DB()
+
+	if err == nil {
+		db.Close()
+	} else {
+		log.Printf("Failed to close database: %v", err)
+	}
 }
