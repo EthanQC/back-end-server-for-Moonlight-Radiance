@@ -5,20 +5,25 @@ package user
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin" // Gin Web 框架
 )
 
 // RegisterHandler 处理用户注册请求
 func RegisterHandler(c *gin.Context) {
+	// 声明输入结构体对象
 	var input RegisterInput
 
+	// 绑定并验证 JSON 请求体
+	// 使用 c.Copy() 复制上下文，避免并发操作修改原始上下文
+	// 解析请求的 JSON 体到 RegisterInput 结构体，并触发验证
 	err := c.Copy().ShouldBindJSON(&input)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalit input"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
 
+	// 注册用户
 	err = Register(input)
 
 	if err != nil {
@@ -26,6 +31,7 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
+	// 返回成功响应
 	c.JSON(http.StatusOK, gin.H{"message": "User registered successfully"})
 }
 

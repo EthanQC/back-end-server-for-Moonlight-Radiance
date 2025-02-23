@@ -1,4 +1,5 @@
 // JWT认证的生成与验证
+// JWT（JSON Web Token）：一种用于身份验证的令牌格式，通常包含用户ID、过期时间等
 
 package auth
 

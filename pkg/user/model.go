@@ -1,5 +1,6 @@
 // 用户数据结构
 // 定义用户相关的数据结构，例如用户ID、登录状态、权限、卡牌状态等
+// JSON（JavaScript Object Notation）：一种轻量级数据交换格式，格式为键值对
 
 package user
 
