@@ -6,7 +6,6 @@ import (
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/auth"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/game"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/user"
 	"github.com/gin-gonic/gin"
 )
@@ -36,26 +35,23 @@ func init() {
 }
 
 func main() {
-	// 创建Gin路由
+	// 设置为发布模式
+	gin.SetMode(gin.ReleaseMode)
+
+	// 创建路由器时设置信任代理
 	router := gin.Default()
+	router.SetTrustedProxies([]string{"127.0.0.1"})
 
 	// 用户登录与注册API
 	router.POST("/register", user.RegisterHandler)
 	router.POST("/login", user.LoginHandler)
 
-	// 示例：卡牌引擎测试
-	router.GET("/card/:userId", func(c *gin.Context) {
-		userId := c.Param("userId")
-		// 假设你会从数据库加载用户数据
-		// user := getUserById(userId)
-		player := &user.User{
-			ID:       1, // 示例ID
-			Username: "TestUser",
-		}
-		card := game.CardEngine(player)
+	// 添加根路由
+	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"user_id": userId,
-			"card":    card,
+			"message": "欢迎访问月华后端服务",
+			"version": "0.0.0",
+			"status":  "running",
 		})
 	})
 
