@@ -1,9 +1,9 @@
-package web
+package v0
 
 import (
 	"net/http"
 
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/user"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/user"
 	"github.com/gin-gonic/gin"
 )
 
