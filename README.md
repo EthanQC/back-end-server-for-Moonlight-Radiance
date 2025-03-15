@@ -10,38 +10,38 @@
 本项目使用微服务架构，结合GO语言与C++，在Ubuntu环境下实现高并发支持和状态实时更新，集成注册中心，自动注册微服务元数据
 
 ├── api/                    
-│   ├── http/              # HTTP API定义
-│   │   └── v0/            # API 版本0
-│   │       ├── routes.go  # 路由定义
-│   │       └── handlers/  # API处理器
-│   └── proto/             # gRPC定义
-│   │    └── game.proto    # 游戏服务定义
-│   └── ws/                # WebSocket API 定义
-├── build/                 # 构建相关文件
+│   ├── http/              
+│   │   └── v0/            
+│   │       ├── routes.go  
+│   │       └── handlers/  
+│   └── proto/              
+│   │    └── game.proto    
+│   └── ws/                
+├── build/                 
 │   ├── Dockerfile        
 │   └── docker-compose.yml
 ├── cmd/                   
 │   └── server/           
-│       └── main.go       # 主程序入口
+│       └── main.go       
 ├── configs/               
-│   ├── app.yaml          # 应用配置
-│   └── db.yaml           # 数据库配置
-├── docs/                  # 文档
-│   ├── api/             # API文档
-│   └── design/          # 设计文档
+│   ├── app.yaml          
+│   └── db.yaml           
+├── docs/                  
+│   ├── api/             
+│   └── design/          
 ├── internal/              
-│   ├── auth/             # 认证模块
-│   │   ├── handler.go    # HTTP处理
-│   │   ├── middleware.go # 认证中间件
-│   │   └── service.go    # 认证服务
+│   ├── auth/             
+│   │   ├── handler.go    
+│   │   ├── middleware.go 
+│   │   └── service.go    
 │   ├── game/            
-│   │   ├── card/         # 卡牌系统
+│   │   ├── card/         
 │   │   │   ├── model.go  
 │   │   │   └── service.go
-│   │   ├── engine/       # 游戏引擎
+│   │   ├── engine/       
 │   │   │   ├── battle.go
 │   │   │   └── score.go 
-│   │   └── room/         # 房间管理
+│   │   └── room/         
 │   │       ├── model.go
 │   │       └── service.go
 │   ├── pve/              
@@ -49,87 +49,21 @@
 │   │   │   └── engine.go
 │   │   └── chapter/     
 │   │       └── manager.go
-│   └── user/             # 用户模块
+│   └── user/             
 │       ├── handler.go    
 │       ├── model.go     
 │       └── service.go   
 └── pkg/                  
     ├── common/           
-    │   ├── db.go        # 数据库连接
-    │   ├── redis.go     # Redis连接
-    │   └── logger.go    # 日志工具
+    │   ├── db.go        
+    │   ├── redis.go     
+    │   └── logger.go    
     └── middleware/      
-        └── auth.go      # 通用认证中间件
+        └── auth.go      
 
-├── api/                    # API 定义和接口文档
-│   ├── http/              # HTTP API 定义
-│   │   └── v1/            # API 版本1
-│   ├── proto/             # Protocol Buffers 定义
-│   │   ├── card/          # 卡牌相关协议
-│   │   ├── game/          # 游戏相关协议
-│   │   └── user/          # 用户相关协议
-│   └── ws/                # WebSocket API 定义
-├── build/                 # 构建相关文件
-│   ├── Dockerfile        
-│   └── docker-compose.yml
-├── cmd/                   # 应用程序入口
-│   └── server/
-│       └── main.go       # 主程序入口
-├── configs/               # 配置文件目录
-│   ├── config.yaml       # 主配置文件
-│   ├── dev.yaml         # 开发环境配置
-│   └── prod.yaml        # 生产环境配置
-├── deployments/           # 部署相关配置
-│   ├── kubernetes/      
-│   └── scripts/         
-├── docs/                  # 文档
-│   ├── api/             # API文档
-│   └── design/          # 设计文档
-├── internal/             # 私有应用程序代码
-│   ├── auth/            # 认证相关
-│   │   ├── handler/     # HTTP处理器
-│   │   ├── model/      # 数据模型
-│   │   └── service/    # 业务逻辑
-│   ├── card/            # 卡牌系统
-│   │   ├── handler/    
-│   │   ├── model/     
-│   │   └── service/   
-│   ├── game/            # 游戏核心逻辑
-│   │   ├── engine/      # 游戏引擎
-│   │   │   ├── battle/  # 战斗系统
-│   │   │   └── score/   # 计分系统
-│   │   ├── room/        # 房间管理
-│   │   └── event/       # 事件系统
-│   ├── map/             # 地图系统
-│   │   ├── handler/    
-│   │   ├── model/     
-│   │   └── service/   
-│   ├── pve/             # PVE相关
-│   │   ├── ai/          # AI系统
-│   │   ├── chapter/     # 章节管理
-│   │   └── event/       # PVE事件
-│   ├── pvp/             # PVP相关
-│   │   ├── match/       # 匹配系统
-│   │   └── battle/      # 对战系统
-│   └── user/            # 用户系统
-│       ├── handler/     # HTTP处理器
-│       ├── model/       # 数据模型
-│       └── service/     # 业务逻辑
-├── pkg/                  # 公共代码库
-│   ├── common/          # 通用工具
-│   │   ├── db/         # 数据库工具
-│   │   ├── redis/      # Redis工具
-│   │   └── logger/     # 日志工具
-│   ├── config/         # 配置管理
-│   ├── errors/         # 错误处理
-│   ├── middleware/     # HTTP中间件
-│   └── utils/          # 工具函数
-├── test/                # 测试代码
-│   ├── integration/    # 集成测试
-│   └── unit/          # 单元测试
-└── scripts/            # 工具脚本
-    ├── migration/      # 数据库迁移
-    └── seeds/         # 测试数据
+
+
+
 
 * **Go 服务**：主服务器，用于处理用户请求和管理业务逻辑
     * 主程序：负责启动服务和初始化
