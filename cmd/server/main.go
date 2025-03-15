@@ -2,11 +2,10 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"os"
 
+	v0 "github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/http"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/user"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 	"github.com/gin-gonic/gin"
 )
@@ -39,21 +38,8 @@ func main() {
 	// 设置为发布模式
 	gin.SetMode(gin.ReleaseMode)
 
-	// 创建路由器时设置信任代理
-	router := gin.Default()
-	router.SetTrustedProxies([]string{"127.0.0.1"})
-
-	// 用户登录与注册API
-	router.POST("/register", user.RegisterHandler)
-	router.POST("/login", user.LoginHandler)
-
-	// 添加静态文件支持
-	router.Static("/frontend", "./frontend")
-
-	// 添加根路由
-	router.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/frontend/html/login.html")
-	})
+	// 设置路由
+	router := v0.SetupRouter()
 
 	// 启动Web服务器
 	log.Println("Server is starting on :8080")

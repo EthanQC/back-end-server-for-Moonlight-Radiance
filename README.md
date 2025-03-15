@@ -17,15 +17,20 @@
     * `sudo systemctl start redis`
 * 启动服务器：`go run cmd/server/main.go`
 
+## 测试账号
+* Ethan Wu
+    * 123456
+* Ethan
+    * 111
+
 ## 服务器架构
 
 本项目使用微服务架构，结合GO语言与C++，在Ubuntu环境下实现高并发支持和状态实时更新，集成注册中心，自动注册微服务元数据
 
     ├── api/                    
     │   ├── http/              # HTTP API定义
-    │   │   └── v0/            # API 版本0
-    │   │       ├── routes.go  # 路由定义
-    │   │       └── handlers/  # API处理器
+    │   │   ├── routes.go      # 路由定义
+    │   │   ├── handlers/      # API处理器
     │   └── proto/             # gRPC定义
     │   │    └── game.proto    # 游戏服务定义
     │   └── ws/                # WebSocket API 定义
@@ -60,11 +65,6 @@
     │   │   └── room/         # 房间管理
     │   │       ├── model.go
     │   │       └── service.go
-    │   ├── pve/              
-    │   │   ├── ai/          
-    │   │   │   └── engine.go
-    │   │   └── chapter/     
-    │   │       └── manager.go
     │   └── user/             # 用户模块
     │       ├── handler.go    
     │       ├── model.go     
