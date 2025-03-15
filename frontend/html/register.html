@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>注册 - 月华</title>
+    <link rel="stylesheet" href="/frontend/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>注册</h2>
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" id="password" required>
+        </div>
+        <button onclick="register()">注册</button>
+        <div class="message">
+            已有账号？<a href="/frontend/html/login.html">立即登录</a>
+        </div>
+        <div id="error" class="error"></div>
+    </div>
+
+    <script src="/frontend/js/register.js"></script>
+</body>
+</html>

@@ -2,11 +2,12 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/auth"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/user"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/user"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,13 +47,12 @@ func main() {
 	router.POST("/register", user.RegisterHandler)
 	router.POST("/login", user.LoginHandler)
 
+	// 添加静态文件支持
+	router.Static("/frontend", "./frontend")
+
 	// 添加根路由
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "欢迎访问月华后端服务",
-			"version": "0.0.0",
-			"status":  "running",
-		})
+		c.Redirect(http.StatusMovedPermanently, "/frontend/html/login.html")
 	})
 
 	// 启动Web服务器

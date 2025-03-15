@@ -5,65 +5,77 @@
 
 本仓库是《月华》的后端开发仓库，旨在记录我的独立开发过程
 
+## 如何运行
+* 创建数据库表：
+    * 
+* 配置环境变量：
+    * `DB_DSN="root:your_password@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"`
+    * `export REDIS_ADDR="localhost:6379"`
+    * `export JWT_SECRET="your-secret-key"`
+* 启动 MySQL、redis：
+    * `sudo systemctl start mysql`
+    * `sudo systemctl start redis`
+* 启动服务器：`go run cmd/server/main.go`
+
 ## 服务器架构
 
 本项目使用微服务架构，结合GO语言与C++，在Ubuntu环境下实现高并发支持和状态实时更新，集成注册中心，自动注册微服务元数据
 
-├── api/                    
-│   ├── http/              
-│   │   └── v0/            
-│   │       ├── routes.go  
-│   │       └── handlers/  
-│   └── proto/              
-│   │    └── game.proto    
-│   └── ws/                
-├── build/                 
-│   ├── Dockerfile        
-│   └── docker-compose.yml
-├── cmd/                   
-│   └── server/           
-│       └── main.go       
-├── configs/               
-│   ├── app.yaml          
-│   └── db.yaml           
-├── docs/                  
-│   ├── api/             
-│   └── design/          
-├── internal/              
-│   ├── auth/             
-│   │   ├── handler.go    
-│   │   ├── middleware.go 
-│   │   └── service.go    
-│   ├── game/            
-│   │   ├── card/         
-│   │   │   ├── model.go  
-│   │   │   └── service.go
-│   │   ├── engine/       
-│   │   │   ├── battle.go
-│   │   │   └── score.go 
-│   │   └── room/         
-│   │       ├── model.go
-│   │       └── service.go
-│   ├── pve/              
-│   │   ├── ai/          
-│   │   │   └── engine.go
-│   │   └── chapter/     
-│   │       └── manager.go
-│   └── user/             
-│       ├── handler.go    
-│       ├── model.go     
-│       └── service.go   
-└── pkg/                  
-    ├── common/           
-    │   ├── db.go        
-    │   ├── redis.go     
-    │   └── logger.go    
-    └── middleware/      
-        └── auth.go      
-
-
-
-
+    ├── api/                    
+    │   ├── http/              # HTTP API定义
+    │   │   └── v0/            # API 版本0
+    │   │       ├── routes.go  # 路由定义
+    │   │       └── handlers/  # API处理器
+    │   └── proto/             # gRPC定义
+    │   │    └── game.proto    # 游戏服务定义
+    │   └── ws/                # WebSocket API 定义
+    ├── build/                 # 构建相关文件
+    │   ├── Dockerfile        
+    │   └── docker-compose.yml
+    ├── cmd/                   
+    │   └── server/           
+    │       └── main.go       # 主程序入口
+    ├── configs/               
+    │   ├── app.yaml          # 应用配置
+    │   └── db.yaml           # 数据库配置
+    ├── docs/                  # 文档
+    │   ├── api/             # API文档
+    │   └── design/          # 设计文档
+    ├── internal/              
+    │   ├── auth/             # 认证模块
+    │   │   ├── handler.go    # HTTP处理
+    │   │   ├── middleware.go # 认证中间件
+    │   │   └── service.go    # 认证服务
+    │   ├── game/            
+    │   │   ├── card/         # 卡牌系统
+        │   │   ├── handler.go 
+    │   │   │   ├── model.go  
+    │   │   │   └── service.go
+    │   │   ├── engine/       # 游戏引擎
+    │   │   │   ├── battle.go
+    │   │   │   └── score.go 
+    │   │   ├── map/       # 游戏引擎
+    │   │   │   ├── handler.go
+    │   │   │   └── model.go 
+    │   │   └── room/         # 房间管理
+    │   │       ├── model.go
+    │   │       └── service.go
+    │   ├── pve/              
+    │   │   ├── ai/          
+    │   │   │   └── engine.go
+    │   │   └── chapter/     
+    │   │       └── manager.go
+    │   └── user/             # 用户模块
+    │       ├── handler.go    
+    │       ├── model.go     
+    │       └── service.go   
+    └── pkg/                  
+        ├── common/           
+        │   ├── db.go        # 数据库连接
+        │   ├── redis.go     # Redis连接
+        │   └── logger.go    # 日志工具
+        └── middleware/      
+            └── auth.go      # 通用认证中间件
 
 * **Go 服务**：主服务器，用于处理用户请求和管理业务逻辑
     * 主程序：负责启动服务和初始化

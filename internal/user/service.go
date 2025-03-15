@@ -5,7 +5,7 @@ package user
 import (
 	"errors" //标准错误处理
 
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/auth"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 	"golang.org/x/crypto/bcrypt" //密码哈希库
 )
