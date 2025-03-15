@@ -1,6 +1,6 @@
 package card
 
-// BasicCard 基础月相牌类型
+// BasicCard 基础牌
 type BasicCard string
 
 const (
@@ -14,11 +14,12 @@ const (
 	WaningCrescent BasicCard = "残月"
 )
 
-// SkillCard 功能牌类型
+// SkillCard 功能牌
 type SkillCard string
 
 const ()
 
+// CardType 卡牌类型
 type CardType int
 
 const (
@@ -30,17 +31,51 @@ const (
 type Card struct {
 	ID          uint     `gorm:"primarykey"`
 	Name        string   `gorm:"size:50;not null"`
-	Type        CardType `gorm:"size:20;not null;"`
-	Description string   `gorm:"size:500"`
-	Chapter     int      `gorm:"default:1"` // 解锁所需章节
+	Type        CardType `gorm:"not null"`
+	Cost        int      `gorm:"not null"`
+	Description string   `gorm:"size:500;not null"`
 }
 
-// PlayerDeck 玩家牌组
-type PlayerDeck struct {
-	ID         uint   `gorm:"primarykey"`
-	UserID     uint   `gorm:"not null"`
-	Name       string `gorm:"size:50"`
-	BasicCards int    `gorm:"default:0"` // 基础牌数量
-	SkillCards int    `gorm:"default:0"` // 功能牌数量
-	CardIDs    []uint `gorm:"type:json"` // 使用JSON类型存储卡牌ID数组
+// PlayerCardState 玩家在对局中的卡牌状态
+type PlayerCardState struct {
+	ID              uint   `gorm:"primarykey"`
+	GameID          uint   `gorm:"not null"`               // 对局ID
+	PlayerID        uint   `gorm:"not null"`               // 玩家ID
+	HandCardIDs     []uint `gorm:"type:json"`              // 手牌ID列表
+	DeckCardIDs     []uint `gorm:"type:json"`              // 牌库ID列表
+	DiscardCardIDs  []uint `gorm:"type:json"`              // 弃牌堆ID列表
+	HandBasicCount  int    `gorm:"not null;default:0"`     // 手上的基础牌数量
+	HandSkillCount  int    `gorm:"not null;default:0"`     // 手上的功能牌数量
+	DeckBasicCount  int    `gorm:"not null;default:0"`     // 牌库的基础牌数量
+	DeckSkillCount  int    `gorm:"not null;default:0"`     // 牌库的功能牌数量
+	BasicCardPlayed bool   `gorm:"not null;default:false"` // 本回合是否出过基础牌
+}
+
+// CardStateResponse 返回给前端的卡牌状态
+type CardStateResponse struct {
+	Self struct {
+		HandCards  []Card `json:"hand_cards"` // 手牌详细信息
+		DeckCounts struct {
+			Basic int `json:"basic"`
+			Skill int `json:"skill"`
+		} `json:"deck_counts"`
+		DiscardCounts struct {
+			Basic int `json:"basic"`
+			Skill int `json:"skill"`
+		} `json:"discard_counts"`
+	} `json:"self"`
+	Opponent struct {
+		HandCounts struct {
+			Basic int `json:"basic"`
+			Skill int `json:"skill"`
+		} `json:"hand_counts"`
+		DeckCounts struct {
+			Basic int `json:"basic"`
+			Skill int `json:"skill"`
+		} `json:"deck_counts"`
+		DiscardCounts struct {
+			Basic int `json:"basic"`
+			Skill int `json:"skill"`
+		} `json:"discard_counts"`
+	} `json:"opponent"`
 }
