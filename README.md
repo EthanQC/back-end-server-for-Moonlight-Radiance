@@ -6,10 +6,14 @@
 本仓库是《月华》的后端开发仓库，旨在记录我的独立开发过程
 
 ## 如何运行
+* 运行环境：
+    * 
 * 创建数据库表：
     * 
+* 更改 MySQL 权限：
+    * 
 * 配置环境变量：
-    * `DB_DSN="root:your_password@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"`
+    * `export DB_DSN="root:your_password@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"`
     * `export REDIS_ADDR="localhost:6379"`
     * `export JWT_SECRET="your-secret-key"`
 * 启动 MySQL、redis：

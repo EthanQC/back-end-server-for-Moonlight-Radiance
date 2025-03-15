@@ -2,44 +2,50 @@ package main
 
 import (
 	"log"
-	"os"
 
-	v0 "github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/http"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/http"
+	config "github.com/EthanQC/back-end-server-for-Moonlight-Radiance/configs"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 	"github.com/gin-gonic/gin"
 )
 
+var cfg *config.Config
+
 func init() {
+	// 加载配置
+	cfg = config.LoadConfig()
+
 	// 初始化日志
 	common.InitLogger()
 
-	// 读取环境变量或配置文件，初始化数据库和Redis
-	dbDSN := os.Getenv("DB_DSN") // MySQL连接字符串
-	if dbDSN == "" {
+	// 初始化数据库
+	if cfg.Database.DSN == "" {
 		log.Fatal("DB_DSN is required")
 	}
-	err := common.InitDB(dbDSN)
-	if err != nil {
+	if err := common.InitDB(cfg.Database.DSN); err != nil {
 		log.Fatal("Database initialization failed: ", err)
 	}
 
-	redisAddr := os.Getenv("REDIS_ADDR") // Redis服务器地址
-	if redisAddr == "" {
+	// 初始化 Redis
+	if cfg.Redis.Addr == "" {
 		log.Fatal("REDIS_ADDR is required")
 	}
-	common.InitRedis(redisAddr, "", 0) // 默认不需要密码，数据库0
+	common.InitRedis(cfg.Redis.Addr, cfg.Redis.Password, cfg.Redis.DB)
 
-	// 初始化JWT认证
-	auth.InitJWT(os.Getenv("JWT_SECRET"))
+	// 初始化 JWT 认证
+	if cfg.JWT.Secret == "" {
+		log.Fatal("JWT_SECRET is required")
+	}
+	auth.InitJWT(cfg.JWT.Secret)
 }
 
 func main() {
 	// 设置为发布模式
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(cfg.Server.Mode)
 
 	// 设置路由
-	router := v0.SetupRouter()
+	router := http.SetupRouter()
 
 	// 启动Web服务器
 	log.Println("Server is starting on :8080")
