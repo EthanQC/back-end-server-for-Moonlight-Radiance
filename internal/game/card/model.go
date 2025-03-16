@@ -27,6 +27,11 @@ const (
 	SkillCardType CardType = 2 //功能牌
 )
 
+const (
+	Basic int = 2
+	Skill int = 1
+)
+
 // Card 卡牌基础结构
 type Card struct {
 	ID          uint     `gorm:"primarykey"`

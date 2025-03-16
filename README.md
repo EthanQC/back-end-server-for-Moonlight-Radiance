@@ -37,19 +37,16 @@
     │   │   ├── handlers/      # API处理器
     │   └── proto/             # gRPC定义
     │   │    └── game.proto    # 游戏服务定义
-    │   └── ws/                # WebSocket API 定义
-    ├── build/                 # 构建相关文件
-    │   ├── Dockerfile        
-    │   └── docker-compose.yml
+    │   └── websocket/         # WebSocket API 定义
+    │   │    └── status.go     # 实时状态同步
     ├── cmd/                   
     │   └── server/           
-    │       └── main.go       # 主程序入口
+    │       └── main.go        # 主程序入口
     ├── configs/               
-    │   ├── app.yaml          # 应用配置
-    │   └── db.yaml           # 数据库配置
+    │   ├── config.go          # 配置文件
     ├── docs/                  # 文档
-    │   ├── api/             # API文档
-    │   └── design/          # 设计文档
+    │   ├── api/               # API文档
+    │   └── design/            # 设计文档
     ├── internal/              
     │   ├── auth/             # 认证模块
     │   │   ├── handler.go    # HTTP处理
