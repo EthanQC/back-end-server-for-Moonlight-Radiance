@@ -1,28 +1,48 @@
 package battlemap
 
+import (
+	"gorm.io/datatypes"
+)
+
+// CardPlacement 卡牌放置信息
+type CardPlacement struct {
+	CardID    uint    `json:"card_id"`    // 放置的卡牌ID
+	PlayerID  uint    `json:"player_id"`  // 放置的玩家ID
+	MoonValue float64 `json:"moon_value"` // 月相值
+}
+
 // Grid 地图格子
 type Grid struct {
-	Index     int     `json:"index"`      // 格子索引
-	CardID    *uint   `json:"card_id"`    // 放置的卡牌ID
-	OwnerID   *uint   `json:"owner_id"`   // 归属玩家ID
-	MoonValue float64 `json:"moon_value"` // 当前月光值
+	Index     int            `json:"index"`
+	Position  Position       `json:"position"`
+	Placement *CardPlacement `json:"placement,omitempty"`
 }
 
-// GameMap 游戏地图
-type GameMap struct {
-	ID     uint   `gorm:"primarykey"`
-	GameID uint   `gorm:"not null"`        // 对局ID
-	Size   int    `gorm:"not null"`        // 地图大小
-	Grids  []Grid `gorm:"serializer:json"` // 格子状态
+// Position 格子位置
+type Position struct {
+	X int `json:"x"`
+	Y int `json:"y"`
 }
 
-// MapStateResponse 返回给前端的地图状态
-type MapStateResponse struct {
-	MapID     uint   `json:"map_id"`
-	Size      int    `json:"size"`
-	Grids     []Grid `json:"grids"`
-	MoonValue struct {
-		Self     float64 `json:"self"`     // 自己的月光值
-		Opponent float64 `json:"opponent"` // 对手的月光值
-	} `json:"moon_value"`
+// BattleMap 对战地图
+type BattleMap struct {
+	ID        uint           `gorm:"primarykey"`
+	GameID    uint           `gorm:"not null"`
+	Size      int            `gorm:"not null"` // 标准大小8x8
+	Grids     datatypes.JSON `gorm:"type:json"`
+	CreatedAt int64          `gorm:"autoCreateTime"`
+	UpdatedAt int64          `gorm:"autoUpdateTime"`
+}
+
+// MapState 地图状态
+type MapState struct {
+	MapID   uint          `json:"map_id"`
+	Grids   []Grid        `json:"grids"`
+	Players []PlayerState `json:"players"`
+}
+
+// PlayerState 玩家状态
+type PlayerState struct {
+	ID        uint    `json:"id"`
+	MoonValue float64 `json:"moon_value"`
 }
