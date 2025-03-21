@@ -1,4 +1,4 @@
-package config
+package configs
 
 import (
 	"os"
@@ -27,6 +27,9 @@ type Config struct {
 // LoadConfig 从环境变量加载配置
 func LoadConfig() *Config {
 	var cfg Config
+
+	// 是否要将环境变量配置直接写入代码？
+	// 优点是配置简单，不需要额外在命令行配置环境变量
 
 	// 数据库配置
 	cfg.Database.DSN = os.Getenv("DB_DSN")

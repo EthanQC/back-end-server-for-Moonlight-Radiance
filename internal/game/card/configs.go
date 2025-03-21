@@ -1,15 +1,17 @@
 package card
 
 import (
-	"os"
-	"testing"
+	"os"      // 操作系统层面，这里用于设置环境变量
+	"testing" // 标准测试包，提供单元测试功能
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 )
 
+// 返回类型为 func() 的函数，用于清理测试数据
 func setupTestDB(t *testing.T) func() {
 	// 设置测试数据库环境变量
-	os.Setenv("DB_DSN", "root:wkr1835484520@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai")
+	// 使用前请先创建数据库 moonlight，并修改密码
+	os.Setenv("DB_DSN", "root:yourpassword@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai")
 
 	// 初始化数据库连接
 	if err := common.InitDB(os.Getenv("DB_DSN")); err != nil {

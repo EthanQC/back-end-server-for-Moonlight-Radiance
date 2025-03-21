@@ -4,17 +4,16 @@ import (
 	"log"
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/http"
-	config "github.com/EthanQC/back-end-server-for-Moonlight-Radiance/configs"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/configs"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
-	"github.com/gin-gonic/gin"
 )
 
-var cfg *config.Config
+var cfg *configs.Config
 
 func init() {
 	// 加载配置
-	cfg = config.LoadConfig()
+	cfg = configs.LoadConfig()
 
 	// 初始化日志
 	common.InitLogger()
@@ -41,9 +40,6 @@ func init() {
 }
 
 func main() {
-	// 设置为发布模式
-	gin.SetMode(cfg.Server.Mode)
-
 	// 设置路由
 	router := http.SetupRouter()
 

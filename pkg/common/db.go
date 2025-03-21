@@ -10,14 +10,18 @@ import (
 	"gorm.io/gorm"         // GORM核心库
 )
 
+// 包级别的全局变量 DB，表示数据库连接实例
 var DB *gorm.DB
 
 // InitDB 初始化 MySQL 数据库连接
 // dsn: data source name，数据源名称
+// 返回 error 类型，指示初始化过程中是否发生错误
 func InitDB(dsn string) error {
 	var err error
 
+	// 保证在数据库操作中，时间数据使用统一且正确的时区
 	config := &gorm.Config{
+		// 获取当前时间
 		NowFunc: func() time.Time {
 			loc, _ := time.LoadLocation("Asia/Shanghai")
 			return time.Now().In(loc)
