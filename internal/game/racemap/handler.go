@@ -16,6 +16,17 @@ func NewRaceMapHandler() *RaceMapHandler {
 	}
 }
 
+// CreateMapHandler 创建竞速地图
+func (h *RaceMapHandler) CreateMapHandler(c *gin.Context) {
+	raceMap, err := h.service.CreateMap()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, raceMap)
+}
+
 // MoveForwardHandler 向前移动
 func (h *RaceMapHandler) MoveForwardHandler(c *gin.Context) {
 	userID := c.GetUint("user_id")

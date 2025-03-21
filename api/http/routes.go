@@ -22,7 +22,8 @@ func SetupRouter() *gin.Engine {
 
 	// WebSocket handler
 	wsHandler := websocket.NewHandler()
-	go wsHandler.hub.Run()
+	hub := wsHandler.Hub()
+	go hub.Run()
 
 	// 基础路由
 	root := router.Group("/")
@@ -44,7 +45,7 @@ func SetupRouter() *gin.Engine {
 
 	// 需要认证的API
 	authorized := router.Group("/api")
-	authorized.Use(auth.JWTMiddleware())
+	authorized.Use(auth.AuthMiddleware())
 	{
 		// WebSocket连接
 		authorized.GET("/ws", wsHandler.HandleConnection)
