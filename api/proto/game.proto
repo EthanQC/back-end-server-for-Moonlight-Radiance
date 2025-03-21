@@ -1,1 +1,161 @@
 // 服务间的高性能通信，微服务架构支持，跨语言服务调用
+syntax = "proto3";
+
+package game;
+
+option go_package = "./proto";
+
+// 游戏服务
+service GameService {
+    // 房间相关
+    rpc CreateRoom (CreateRoomRequest) returns (Room);
+    rpc JoinRoom (JoinRoomRequest) returns (Room);
+    rpc GetRoomState (RoomRequest) returns (Room);
+    
+    // 卡牌相关
+    rpc InitializeDeck (InitDeckRequest) returns (CardState);
+    rpc PlayCard (PlayCardRequest) returns (CardState);
+    rpc DrawCards (DrawCardsRequest) returns (CardState);
+    rpc EndTurn (EndTurnRequest) returns (CardState);
+    
+    // 对战地图相关
+    rpc CreateBattleMap (CreateBattleMapRequest) returns (BattleMap);
+    rpc PlaceCard (PlaceCardRequest) returns (BattleMap);
+    rpc GetBattleMapState (BattleMapRequest) returns (BattleMap);
+    
+    // 竞速地图相关
+    rpc CreateRaceMap (CreateRaceMapRequest) returns (RaceMap);
+    rpc MoveForward (MoveRequest) returns (MoveResult);
+    rpc GetPosition (PositionRequest) returns (Position);
+}
+
+// 房间相关消息
+message CreateRoomRequest {
+    uint64 player_id = 1;
+}
+
+message JoinRoomRequest {
+    uint64 room_id = 1;
+    uint64 player_id = 2;
+}
+
+message RoomRequest {
+    uint64 room_id = 1;
+}
+
+message Room {
+    uint64 id = 1;
+    string status = 2;
+    uint64 player1_id = 3;
+    optional uint64 player2_id = 4;
+    uint64 current_player_id = 5;
+    uint64 battle_map_id = 6;
+    uint64 race_map_id = 7;
+}
+
+// 卡牌相关消息
+message InitDeckRequest {
+    uint64 game_id = 1;
+    uint64 player_id = 2;
+}
+
+message PlayCardRequest {
+    uint64 game_id = 1;
+    uint64 player_id = 2;
+    uint64 card_id = 3;
+}
+
+message DrawCardsRequest {
+    uint64 game_id = 1;
+    uint64 player_id = 2;
+}
+
+message EndTurnRequest {
+    uint64 game_id = 1;
+    uint64 player_id = 2;
+}
+
+message CardState {
+    repeated Card hand_cards = 1;
+    int32 deck_count = 2;
+    int32 discard_count = 3;
+    bool basic_card_played = 4;
+}
+
+message Card {
+    uint64 id = 1;
+    string name = 2;
+    string type = 3;
+    double moon_value = 4;
+}
+
+// 对战地图相关消息
+message CreateBattleMapRequest {
+    uint64 game_id = 1;
+}
+
+message PlaceCardRequest {
+    uint64 map_id = 1;
+    uint64 player_id = 2;
+    int32 x = 3;
+    int32 y = 4;
+    uint64 card_id = 5;
+}
+
+message BattleMapRequest {
+    uint64 map_id = 1;
+}
+
+message BattleMap {
+    uint64 id = 1;
+    repeated Grid grids = 2;
+    repeated PlayerState players = 3;
+}
+
+message Grid {
+    int32 index = 1;
+    Position position = 2;
+    optional CardPlacement placement = 3;
+}
+
+message CardPlacement {
+    uint64 card_id = 1;
+    uint64 player_id = 2;
+    double moon_value = 3;
+}
+
+// 竞速地图相关消息
+message CreateRaceMapRequest {}
+
+message MoveRequest {
+    uint64 map_id = 1;
+    uint64 player_id = 2;
+    double moon_value = 3;
+}
+
+message PositionRequest {
+    uint64 map_id = 1;
+    uint64 player_id = 2;
+}
+
+message RaceMap {
+    uint64 id = 1;
+    int32 length = 2;
+    double min_moon = 3;
+}
+
+message Position {
+    int32 location = 1;
+    double moon_value = 2;
+}
+
+message MoveResult {
+    bool success = 1;
+    Position new_position = 2;
+    string message = 3;
+}
+
+message PlayerState {
+    uint64 id = 1;
+    double moon_value = 2;
+}

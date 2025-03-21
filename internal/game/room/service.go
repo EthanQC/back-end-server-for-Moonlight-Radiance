@@ -3,6 +3,7 @@ package room
 import (
 	"errors"
 
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/websocket"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/battlemap"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/card"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/racemap"
@@ -15,6 +16,7 @@ type RoomService struct {
 	battlemapService *battlemap.BattleMapService
 	racemapService   *racemap.RaceMapService
 	cardService      *card.CardService
+	wsHub            *websocket.Hub
 }
 
 func NewRoomService() *RoomService {
