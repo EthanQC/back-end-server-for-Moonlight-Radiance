@@ -6,10 +6,10 @@ package user
 
 // User 用户数据类型
 type User struct {
-	ID       uint   `json:"id" gorm:"primaryKey"`
-	Username string `json:"username" gorm:"unique"`
+	ID       uint   `json:"id"`
+	Username string `json:"username"`
 	Password string `json:"password"`
-	Role     string `json:"role"` //管理员或玩家
+	Role     string `json:"role"` //管理员或玩家，默认玩家
 }
 
 // RegisterInput 注册请求输入结构体
