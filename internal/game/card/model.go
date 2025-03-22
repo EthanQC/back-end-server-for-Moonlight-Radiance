@@ -19,7 +19,11 @@ const (
 // SkillCard 功能牌
 type SkillCard string
 
-const ()
+const (
+	MoonProphecy   SkillCard = "月之预言"
+	MarsfallImpact SkillCard = "荧惑坠月"
+	CassiaAegis    SkillCard = "桂魄含光"
+)
 
 // CardType 卡牌类型
 type CardType int
