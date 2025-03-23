@@ -42,10 +42,7 @@
 * Ubuntu 24.04
 
 ### 安装步骤
-* 创建数据库表：
-    * 
-* 更改 MySQL 权限：
-    * 
+
 * 配置环境变量：
     * `export DB_DSN="root:your_password@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"`
     * `export REDIS_ADDR="localhost:6379"`
@@ -53,6 +50,12 @@
 * 启动 MySQL、redis：
     * `sudo systemctl start mysql`
     * `sudo systemctl start redis`
+* [更改 MySQL 权限](https://github.com/EthanQC/my-learning-record/blob/main/database/FAQ.md)
+* 创建数据库表：
+    * 登录：`mysql -u root -p`
+    * 运行 SQL 脚本：
+        * `source migrations/001_init.sql`
+        * `source migrations/002_add_tables.sql`
 * 启动服务器：`go run cmd/server/main.go`
 
 ## 测试账号

@@ -74,32 +74,32 @@ func (s PlayerState) GetMaxSkillCards() int {
 
 // Card 卡牌基础结构
 type Card struct {
-	ID          uint     `gorm:"primarykey"`
-	Name        string   `gorm:"size:50;not null"`
-	Type        CardType `gorm:"not null"`
-	Cost        int      `gorm:"not null"`
-	Description string   `gorm:"size:500;not null"`
+	ID          uint
+	Name        string
+	Type        CardType
+	Cost        int
+	Description string
 }
 
 // PlayerCardState 玩家在对局中的卡牌状态
 type PlayerCardState struct {
-	ID              uint           `gorm:"primarykey"`
-	GameID          uint           `gorm:"not null"`               // 对局ID
-	PlayerID        uint           `gorm:"not null"`               // 玩家ID
-	Stage           PlayerState    `gorm:"not null;default:0"`     // 游戏进程阶段
-	HandCardIDs     datatypes.JSON `gorm:"type:json"`              // 手牌ID列表
-	DeckCardIDs     datatypes.JSON `gorm:"type:json"`              // 牌库ID列表
-	DiscardCardIDs  datatypes.JSON `gorm:"type:json"`              // 弃牌堆ID列表
-	HandBasicCount  int            `gorm:"not null;default:0"`     // 手上的基础牌数量
-	HandSkillCount  int            `gorm:"not null;default:0"`     // 手上的功能牌数量
-	DeckBasicCount  int            `gorm:"not null;default:0"`     // 牌库的基础牌数量
-	DeckSkillCount  int            `gorm:"not null;default:0"`     // 牌库的功能牌数量
-	BasicCardPlayed bool           `gorm:"not null;default:false"` // 本回合是否出过基础牌
+	ID              uint
+	GameID          uint           // 对局ID
+	PlayerID        uint           // 玩家ID
+	Stage           PlayerState    // 游戏进程阶段
+	HandCardIDs     datatypes.JSON // 手牌ID列表
+	DeckCardIDs     datatypes.JSON // 牌库ID列表
+	DiscardCardIDs  datatypes.JSON // 弃牌堆ID列表
+	HandBasicCount  int            // 手上的基础牌数量
+	HandSkillCount  int            // 手上的功能牌数量
+	DeckBasicCount  int            // 牌库的基础牌数量
+	DeckSkillCount  int            // 牌库的功能牌数量
+	BasicCardPlayed bool           // 本回合是否出过基础牌
 }
 
 // TableName 指定表名
 func (PlayerCardState) TableName() string {
-	return "PlayerCardState"
+	return "player_card_states"
 }
 
 // CardStateResponse 返回给前端的卡牌状态
