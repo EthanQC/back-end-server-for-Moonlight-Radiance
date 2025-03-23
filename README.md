@@ -34,14 +34,14 @@
 本仓库是《月华》的后端开发仓库，旨在记录我的独立开发过程
 
 ## 快速开始
-### 环境要求
+#### 环境要求
 
 * Go 1.22+
 * MySQL 8.0+
 * Redis 6.0+
 * Ubuntu 24.04
 
-### 安装步骤
+#### 安装步骤
 
 * 配置环境变量：
     * `export DB_DSN="root:your_password@tcp(localhost:3306)/moonlight?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"`
