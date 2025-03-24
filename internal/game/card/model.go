@@ -74,11 +74,11 @@ func (s PlayerState) GetMaxSkillCards() int {
 
 // Card 卡牌基础结构
 type Card struct {
-	ID          uint
-	Name        string
-	Type        CardType
-	Cost        int
-	Description string
+	ID          uint     `json:"id"`
+	Name        string   `json:"name"`
+	Type        CardType `json:"type"`
+	Cost        int      `json:"cost"`
+	Description string   `json:"description"`
 }
 
 // PlayerCardState 玩家在对局中的卡牌状态
@@ -105,29 +105,29 @@ func (PlayerCardState) TableName() string {
 // CardStateResponse 返回给前端的卡牌状态
 type CardStateResponse struct {
 	Self struct {
-		HandCards  []Card `json:"hand_cards"` // 手牌详细信息
+		HandCards  []Card `json:"handCards"` // 手牌详细信息
 		DeckCounts struct {
 			Basic int `json:"basic"`
 			Skill int `json:"skill"`
-		} `json:"deck_counts"`
+		} `json:"deckCounts"`
 		DiscardCounts struct {
 			Basic int `json:"basic"`
 			Skill int `json:"skill"`
-		} `json:"discard_counts"`
+		} `json:"discardCounts"`
 	} `json:"self"`
 	Opponent struct {
 		HandCounts struct {
 			Basic int `json:"basic"`
 			Skill int `json:"skill"`
-		} `json:"hand_counts"`
+		} `json:"handCounts"`
 		DeckCounts struct {
 			Basic int `json:"basic"`
 			Skill int `json:"skill"`
-		} `json:"deck_counts"`
+		} `json:"deckCounts"`
 		DiscardCounts struct {
 			Basic int `json:"basic"`
 			Skill int `json:"skill"`
-		} `json:"discard_counts"`
+		} `json:"discardCounts"`
 	} `json:"opponent"`
 	Stage PlayerState `json:"stage"`
 }

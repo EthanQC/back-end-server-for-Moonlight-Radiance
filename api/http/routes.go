@@ -61,11 +61,11 @@ func SetupRouter() *gin.Engine {
 		}
 
 		// 卡牌相关
-		cardGroup := authorized.Group("/card")
+		cardGroup := authorized.Group("/cards")
 		{
 			cardHandler := card.NewCardHandler()
 			cardGroup.POST("/init", cardHandler.InitDeckHandler)
-			cardGroup.GET("/state", cardHandler.GetCardStateHandler)
+			cardGroup.POST("/state", cardHandler.GetCardStateHandler)
 			cardGroup.POST("/draw", cardHandler.DrawCardsHandler)
 			cardGroup.POST("/play", cardHandler.PlayCardHandler)
 			cardGroup.POST("/endTurn", cardHandler.EndTurnHandler)
