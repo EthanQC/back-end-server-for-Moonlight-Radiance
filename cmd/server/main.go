@@ -7,6 +7,7 @@ import (
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/configs"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
+	"github.com/gin-gonic/gin"
 )
 
 var cfg *configs.Config
@@ -14,6 +15,7 @@ var cfg *configs.Config
 func init() {
 	// 加载配置
 	cfg = configs.LoadConfig()
+	gin.SetMode(gin.ReleaseMode)
 
 	// 初始化日志
 	common.InitLogger()

@@ -2,6 +2,7 @@ package http
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/websocket"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
@@ -10,11 +11,25 @@ import (
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/racemap"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/room"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/user"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
+
+	// 推荐使用自定义配置，而不是 cors.Default()
+	// 确保 "Authorization" 被允许
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"http://127.0.0.1:5173", "http://localhost:5173"},
+		// 如果你想在生产环境允许别的域名，也可以加进来
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type", "Accept"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
 	router.SetTrustedProxies([]string{"127.0.0.1"})
 
 	// 静态文件
