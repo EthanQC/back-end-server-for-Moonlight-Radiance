@@ -1,4 +1,4 @@
-insert into cards (name, type, cost, description) values
+insert ignore into cards (name, type, cost, description) values
 	    ('新月', 1, 0, '基础月相牌'),
 	    ('蛾眉月', 1, 0, '基础月相牌'),
 	    ('上弦月', 1, 0, '基础月相牌'),

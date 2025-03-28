@@ -34,7 +34,7 @@
         │   │   └── service.go    # 认证服务
         │   ├── game/            
         │   │   ├── card/         # 卡牌系统
-            │   │   ├── handler.go 
+        │   │   │   ├── handler.go 
         │   │   │   ├── model.go  
         │   │   │   └── service.go
         │   │   ├── engine/       # 游戏引擎
@@ -55,8 +55,8 @@
             │   ├── db.go        # 数据库连接
             │   ├── redis.go     # Redis连接
             │   └── logger.go    # 日志工具
-            └── middleware/      
-                └── auth.go      # 通用认证中间件
+            └── util/      
+                └── migrator.go      # SQL 脚本自动执行工具
 
 ## 快速开始
 #### 环境要求

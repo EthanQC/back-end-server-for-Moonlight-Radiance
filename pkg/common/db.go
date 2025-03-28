@@ -1,11 +1,8 @@
-// 数据库连接和模型定义
-
+// 数据库连接
 package common
 
 import (
 	"log" // Go标准日志库
-	"os"
-	"path/filepath"
 	"time"
 
 	"gorm.io/driver/mysql"           // GORM 的 MySQL 驱动
@@ -72,37 +69,4 @@ func CloseDB() {
 	} else {
 		log.Fatalf("Failed to close database: %v", err)
 	}
-}
-
-// MigrateFromSQLFiles 从 SQL 文件迁移数据
-// migrationDir: 存放 SQL 文件的目录
-// 返回 error 类型，指示迁移过程中是否发生错误
-func MigrateFromSQLFiles(migrationDir string) error {
-	if DB == nil {
-		log.Fatalf("DB not initialized")
-	}
-
-	files, err := os.ReadDir(migrationDir)
-	if err != nil {
-		log.Fatalf("failed to read migrations directory: %v", err)
-	}
-
-	for _, f := range files {
-		if f.IsDir() || filepath.Ext(f.Name()) != ".sql" {
-			continue
-		}
-		path := filepath.Join(migrationDir, f.Name())
-		sqlContent, err := os.ReadFile(path)
-		if err != nil {
-			log.Fatalf("failed to read migration file %s: %v", path, err)
-		}
-
-		log.Printf("Executing migration file: %s", path)
-		if err := DB.Exec(string(sqlContent)).Error; err != nil {
-			log.Fatalf("failed to execute migration file %s: %v", path, err)
-		}
-	}
-
-	log.Println("All SQL migrations executed successfully.")
-	return nil
 }

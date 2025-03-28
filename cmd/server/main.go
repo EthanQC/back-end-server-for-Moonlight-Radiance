@@ -22,31 +22,26 @@ func init() {
 
 	// 初始化数据库
 	if cfg.Database.DSN == "" {
-		log.Fatal("DB_DSN is required")
+		log.Fatalf("DB_DSN is required")
 	}
 	if err := common.InitDB(cfg.Database.DSN); err != nil {
-		log.Fatal("Database initialization failed: ", err)
+		log.Fatalf("Database initialization failed: %v", err)
 	}
 
 	// 初始化 Redis
 	if cfg.Redis.Addr == "" {
-		log.Fatal("REDIS_ADDR is required")
+		log.Fatalf("REDIS_ADDR is required")
 	}
 	common.InitRedis(cfg.Redis.Addr, cfg.Redis.Password, cfg.Redis.DB)
 
 	// 初始化 JWT 认证
 	if cfg.JWT.Secret == "" {
-		log.Fatal("JWT_SECRET is required")
+		log.Fatalf("JWT_SECRET is required")
 	}
 	auth.InitJWT(cfg.JWT.Secret)
 }
 
 func main() {
-	// 自动执行 SQL 脚本
-	if err := common.MigrateFromSQLFiles("./migrations"); err != nil {
-		log.Fatalf("Migration error: %v", err)
-	}
-
 	// 设置路由
 	router := http.SetupRouter()
 

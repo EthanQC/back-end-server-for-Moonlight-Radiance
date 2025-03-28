@@ -1,0 +1,3 @@
+INFO: 2025/03/28 23:36:35 db.go:58: Database connected successfully
+INFO: 2025/03/28 23:36:35 redis.go:27: Redis connected successfully.
+INFO: 2025/03/28 23:36:35 main.go:49: Server is starting on :8080
