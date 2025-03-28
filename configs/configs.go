@@ -28,9 +28,6 @@ type Config struct {
 func LoadConfig() *Config {
 	var cfg Config
 
-	// 是否要将环境变量配置直接写入代码？
-	// 优点是配置简单，不需要额外在命令行配置环境变量
-
 	// 数据库配置
 	cfg.Database.DSN = os.Getenv("DB_DSN")
 
@@ -47,10 +44,10 @@ func LoadConfig() *Config {
 	if cfg.Server.Port == "" {
 		cfg.Server.Port = "8080"
 	}
-	cfg.Server.Mode = os.Getenv("GIN_MODE")
-	if cfg.Server.Mode == "" {
-		cfg.Server.Mode = "release"
-	}
+	// cfg.Server.Mode = os.Getenv("GIN_MODE")
+	// if cfg.Server.Mode == "" {
+	// 	cfg.Server.Mode = "release"
+	// }
 
 	return &cfg
 }

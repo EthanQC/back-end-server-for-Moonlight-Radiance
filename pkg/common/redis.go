@@ -29,8 +29,7 @@ func InitRedis(addr string, password string, db int) {
 
 // CloseRedis 关闭Redis连接
 func CloseRedis() {
-	err := RedisClient.Close()
-	if err != nil {
+	if err := RedisClient.Close(); err != nil {
 		log.Printf("Error closing Redis connection: %v", err)
 	}
 }

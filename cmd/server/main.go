@@ -42,13 +42,17 @@ func init() {
 }
 
 func main() {
+	// 自动执行 SQL 脚本
+	if err := common.MigrateFromSQLFiles("./migrations"); err != nil {
+		log.Fatalf("Migration error: %v", err)
+	}
+
 	// 设置路由
 	router := http.SetupRouter()
 
 	// 启动Web服务器
 	log.Println("Server is starting on :8080")
-	err := router.Run(":8080")
-	if err != nil {
+	if err := router.Run(":8080"); err != nil {
 		log.Fatalf("Could not start server: %v", err)
 	}
 }
