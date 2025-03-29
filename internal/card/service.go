@@ -7,7 +7,6 @@ import (
 	"slices"
 	"time"
 
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
@@ -16,10 +15,8 @@ type CardService struct {
 	db *gorm.DB
 }
 
-func NewCardService() *CardService {
-	return &CardService{
-		db: common.DB,
-	}
+func NewCardService(db *gorm.DB) *CardService {
+	return &CardService{db: db}
 }
 
 // InitializePlayerDeck 初始化玩家牌组

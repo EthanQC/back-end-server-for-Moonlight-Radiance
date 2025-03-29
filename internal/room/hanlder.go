@@ -15,7 +15,7 @@ func NewRoomHandler(s *RoomService) *RoomHandler {
 	return &RoomHandler{service: s}
 }
 
-// POST /api/room/create
+// POST /api/rooms/create
 // body: {"capacity": 2 or 3 or 4}
 func (h *RoomHandler) CreateRoomHandler(c *gin.Context) {
 	userID := c.GetUint("user_id")
@@ -42,7 +42,7 @@ func (h *RoomHandler) CreateRoomHandler(c *gin.Context) {
 	})
 }
 
-// POST /api/room/join
+// POST /api/rooms/join
 // body: {"room_id": 123}
 func (h *RoomHandler) JoinRoomHandler(c *gin.Context) {
 	userID := c.GetUint("user_id")
@@ -63,7 +63,7 @@ func (h *RoomHandler) JoinRoomHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "joined room"})
 }
 
-// GET /api/room/state?room_id=xxx
+// GET /api/rooms/state?room_id=xxx
 func (h *RoomHandler) GetRoomStateHandler(c *gin.Context) {
 	rid := c.Query("room_id")
 	if rid == "" {

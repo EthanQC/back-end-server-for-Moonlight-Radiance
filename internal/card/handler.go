@@ -10,10 +10,8 @@ type CardHandler struct {
 	service *CardService
 }
 
-func NewCardHandler() *CardHandler {
-	return &CardHandler{
-		service: NewCardService(),
-	}
+func NewCardHandler(s *CardService) *CardHandler {
+	return &CardHandler{service: s}
 }
 
 // InitDeckHandler 初始化牌组

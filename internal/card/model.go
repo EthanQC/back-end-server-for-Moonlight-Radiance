@@ -74,11 +74,11 @@ func (s PlayerState) GetMaxSkillCards() int {
 
 // Card 卡牌基础结构
 type Card struct {
-	ID          uint     `json:"id"`
-	Name        string   `json:"name"`
-	Type        CardType `json:"type"`
-	Cost        int      `json:"cost"`
-	Description string   `json:"description"`
+	ID          uint
+	Name        string
+	Type        CardType
+	Cost        int
+	Description string
 }
 
 // PlayerCardState 玩家在对局中的卡牌状态

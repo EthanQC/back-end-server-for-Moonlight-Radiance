@@ -64,7 +64,7 @@ func SetupRouter() *gin.Engine {
 		authorized.GET("/ws", wsHandler.HandleConnection)
 
 		// 房间相关
-		roomGroup := authorized.Group("/room")
+		roomGroup := authorized.Group("/rooms")
 		{
 			roomHandler := room.NewRoomHandler(room.NewRoomService(common.DB))
 			roomGroup.POST("/create", roomHandler.CreateRoomHandler)
@@ -75,7 +75,7 @@ func SetupRouter() *gin.Engine {
 		// 卡牌相关
 		cardGroup := authorized.Group("/cards")
 		{
-			cardHandler := card.NewCardHandler()
+			cardHandler := card.NewCardHandler(card.NewCardService(common.DB))
 			cardGroup.POST("/init", cardHandler.InitDeckHandler)
 			cardGroup.POST("/state", cardHandler.GetCardStateHandler)
 			cardGroup.POST("/draw", cardHandler.DrawCardsHandler)
