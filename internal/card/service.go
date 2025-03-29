@@ -23,6 +23,7 @@ func NewCardService(db *gorm.DB) *CardService {
 func (s *CardService) InitializePlayerDeck(gameID, playerID uint) error {
 	// 创建初始牌组状态
 	state := PlayerCardState{
+		GameID:   gameID,
 		PlayerID: playerID,
 	}
 
@@ -72,6 +73,25 @@ func (s *CardService) InitializePlayerDeck(gameID, playerID uint) error {
 	return s.db.Create(&state).Error
 }
 
+// GetGamePlayers 获取游戏中的所有玩家
+func (s *CardService) GetGamePlayers(gameID uint) ([]uint, error) {
+	var players []struct {
+		PlayerID uint
+	}
+	if err := s.db.Table("game_players").
+		Where("game_id = ?", gameID).
+		Order("position").
+		Find(&players).Error; err != nil {
+		return nil, err
+	}
+
+	playerIDs := make([]uint, len(players))
+	for i, p := range players {
+		playerIDs[i] = p.PlayerID
+	}
+	return playerIDs, nil
+}
+
 // GetCardState 获取玩家的卡牌状态
 func (s *CardService) GetCardState(gameID, playerID uint) (*CardStateResponse, error) {
 	// 获取玩家的状态
@@ -80,44 +100,64 @@ func (s *CardService) GetCardState(gameID, playerID uint) (*CardStateResponse, e
 		return nil, err
 	}
 
-	// 获取对手的状态
-	var opponentState PlayerCardState
-	if err := s.db.Where("game_id = ? AND player_id != ?", gameID, playerID).First(&opponentState).Error; err != nil {
+	// 获取所有玩家ID
+	playerIDs, err := s.GetGamePlayers(gameID)
+	if err != nil {
 		return nil, err
 	}
 
 	// 构建响应
 	response := &CardStateResponse{}
 
-	// 获取并设置手牌详细信息
+	// 处理自己的手牌
+	if err := s.processOwnCards(&state, response); err != nil {
+		return nil, err
+	}
+
+	// 处理所有对手的状态
+	response.Opponents = make([]OpponentState, 0)
+	for pos, pid := range playerIDs {
+		if pid == playerID {
+			continue
+		}
+
+		var oppState PlayerCardState
+		if err := s.db.Where("game_id = ? AND player_id = ?", gameID, pid).
+			First(&oppState).Error; err != nil {
+			return nil, err
+		}
+
+		opponent := OpponentState{
+			PlayerID: pid,
+			Position: pos + 1,
+		}
+		opponent.HandCounts.Basic = oppState.HandBasicCount
+		opponent.HandCounts.Skill = oppState.HandSkillCount
+		opponent.DeckCounts.Basic = oppState.DeckBasicCount
+		opponent.DeckCounts.Skill = oppState.DeckSkillCount
+
+		// 统计对手弃牌堆
+		if err := s.processOpponentDiscards(&oppState, &opponent); err != nil {
+			return nil, err
+		}
+
+		response.Opponents = append(response.Opponents, opponent)
+	}
+
+	response.Stage = state.Stage
+	return response, nil
+}
+
+// processOwnCards 处理玩家自己的卡牌
+func (s *CardService) processOwnCards(state *PlayerCardState, response *CardStateResponse) error {
+	// 处理手牌
 	var handCardIDs []uint
 	if err := json.Unmarshal(state.HandCardIDs, &handCardIDs); err != nil {
-		return nil, err
+		return err
 	}
 	if len(handCardIDs) > 0 {
 		if err := s.db.Find(&response.Self.HandCards, handCardIDs).Error; err != nil {
-			return nil, err
-		}
-	}
-
-	// 统计弃牌堆
-	if len(state.DiscardCardIDs) > 0 {
-		var discardCardIDs []uint
-		if err := json.Unmarshal(state.DiscardCardIDs, &discardCardIDs); err != nil {
-			return nil, err
-		}
-
-		var discardCards []Card
-		if err := s.db.Find(&discardCards, discardCardIDs).Error; err != nil {
-			return nil, err
-		}
-
-		for _, card := range discardCards {
-			if card.Type == BasicCardType {
-				response.Self.DiscardCounts.Basic++
-			} else {
-				response.Self.DiscardCounts.Skill++
-			}
+			return err
 		}
 	}
 
@@ -125,34 +165,41 @@ func (s *CardService) GetCardState(gameID, playerID uint) (*CardStateResponse, e
 	response.Self.DeckCounts.Basic = state.DeckBasicCount
 	response.Self.DeckCounts.Skill = state.DeckSkillCount
 
-	// 设置对手信息
-	response.Opponent.HandCounts.Basic = opponentState.HandBasicCount
-	response.Opponent.HandCounts.Skill = opponentState.HandSkillCount
-	response.Opponent.DeckCounts.Basic = opponentState.DeckBasicCount
-	response.Opponent.DeckCounts.Skill = opponentState.DeckSkillCount
+	// 统计弃牌堆
+	return s.processDiscardPile(state.DiscardCardIDs, &response.Self.DiscardCounts)
+}
 
-	// 统计对手弃牌堆
-	if len(opponentState.DiscardCardIDs) > 0 {
-		var opponentDiscardIDs []uint
-		if err := json.Unmarshal(opponentState.DiscardCardIDs, &opponentDiscardIDs); err != nil {
-			return nil, err
+// processOpponentDiscards 处理对手的弃牌堆
+func (s *CardService) processOpponentDiscards(state *PlayerCardState, opponent *OpponentState) error {
+	return s.processDiscardPile(state.DiscardCardIDs, &opponent.DiscardCounts)
+}
+
+// processDiscardPile 处理弃牌堆统计
+func (s *CardService) processDiscardPile(discardIDs datatypes.JSON, counts interface{}) error {
+	var cardIDs []uint
+	if err := json.Unmarshal(discardIDs, &cardIDs); err != nil {
+		return err
+	}
+
+	if len(cardIDs) > 0 {
+		var cards []Card
+		if err := s.db.Find(&cards, cardIDs).Error; err != nil {
+			return err
 		}
 
-		var opponentDiscardCards []Card
-		if err := s.db.Find(&opponentDiscardCards, opponentDiscardIDs).Error; err != nil {
-			return nil, err
-		}
-
-		for _, card := range opponentDiscardCards {
-			if card.Type == BasicCardType {
-				response.Opponent.DiscardCounts.Basic++
-			} else {
-				response.Opponent.DiscardCounts.Skill++
+		// 使用类型断言处理不同的计数结构
+		switch c := counts.(type) {
+		case *struct{ Basic, Skill int }:
+			for _, card := range cards {
+				if card.Type == BasicCardType {
+					c.Basic++
+				} else {
+					c.Skill++
+				}
 			}
 		}
 	}
-
-	return response, nil
+	return nil
 }
 
 // DrawCards 抽指定数量的牌

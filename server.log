@@ -8,3 +8,6 @@ INFO: 2025/03/29 11:58:45 main.go:49: Server is starting on :8080
 INFO: 2025/03/29 12:19:43 db.go:58: Database connected successfully
 INFO: 2025/03/29 12:19:43 redis.go:26: Redis connected successfully.
 INFO: 2025/03/29 12:19:43 main.go:49: Server is starting on :8080
+INFO: 2025/03/29 17:46:23 db.go:58: Database connected successfully
+INFO: 2025/03/29 17:46:23 redis.go:26: Redis connected successfully.
+INFO: 2025/03/29 17:46:23 main.go:49: Server is starting on :8080

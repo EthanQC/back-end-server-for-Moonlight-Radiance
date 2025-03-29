@@ -36,17 +36,10 @@ func (h *CardHandler) InitDeckHandler(c *gin.Context) {
 
 // GetCardStateHandler 获取卡牌状态
 func (h *CardHandler) GetCardStateHandler(c *gin.Context) {
-	userID := c.GetUint("user_id")
-	var req struct {
-		GameID uint `json:"game_id" binding:"required"`
-	}
+	gameID := c.GetUint("game_id")
+	playerID := c.GetUint("player_id")
 
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "无效的请求参数"})
-		return
-	}
-
-	state, err := h.service.GetCardState(req.GameID, userID)
+	state, err := h.service.GetCardState(gameID, playerID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

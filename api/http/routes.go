@@ -6,9 +6,7 @@ import (
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/websocket"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/battlemap"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/card"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/racemap"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/room"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/user"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
@@ -83,23 +81,23 @@ func SetupRouter() *gin.Engine {
 			cardGroup.POST("/endTurn", cardHandler.EndTurnHandler)
 		}
 
-		// 对战地图相关
-		mapGroup := authorized.Group("/battlemap")
-		{
-			mapHandler := battlemap.NewBattleMapHandler()
-			mapGroup.POST("/create", mapHandler.CreateMapHandler)
-			mapGroup.POST("/placeCard", mapHandler.PlaceCardHandler)
-			mapGroup.GET("/state", mapHandler.GetMapStateHandler)
-		}
+		// // 对战地图相关
+		// mapGroup := authorized.Group("/battlemap")
+		// {
+		// 	mapHandler := battlemap.NewBattleMapHandler()
+		// 	mapGroup.POST("/create", mapHandler.CreateMapHandler)
+		// 	mapGroup.POST("/placeCard", mapHandler.PlaceCardHandler)
+		// 	mapGroup.GET("/state", mapHandler.GetMapStateHandler)
+		// }
 
-		// 竞速地图相关
-		raceGroup := authorized.Group("/racemap")
-		{
-			raceHandler := racemap.NewRaceMapHandler()
-			raceGroup.POST("/create", raceHandler.CreateMapHandler)
-			raceGroup.POST("/move", raceHandler.MoveForwardHandler)
-			raceGroup.GET("/state", raceHandler.GetPositionHandler)
-		}
+		// // 竞速地图相关
+		// raceGroup := authorized.Group("/racemap")
+		// {
+		// 	raceHandler := racemap.NewRaceMapHandler()
+		// 	raceGroup.POST("/create", raceHandler.CreateMapHandler)
+		// 	raceGroup.POST("/move", raceHandler.MoveForwardHandler)
+		// 	raceGroup.GET("/state", raceHandler.GetPositionHandler)
+		// }
 	}
 
 	return router

@@ -42,7 +42,7 @@ const (
 	InitialSkillDeckSize = 4 // 初始牌库功能牌数量
 )
 
-// PlayerStage 玩家的游戏进程状态
+// PlayerState 玩家的游戏进程状态
 type PlayerStage int
 
 const (
@@ -84,6 +84,7 @@ type Card struct {
 // PlayerCardState 玩家在对局中的卡牌状态
 type PlayerCardState struct {
 	ID              uint
+	GameID          uint           // 对局ID
 	PlayerID        uint           // 玩家ID
 	Stage           PlayerStage    // 游戏进程阶段
 	HandCardIDs     datatypes.JSON // 手牌ID列表
@@ -114,19 +115,24 @@ type CardStateResponse struct {
 			Skill int `json:"skill"`
 		} `json:"discardCounts"`
 	} `json:"self"`
-	Opponent struct {
-		HandCounts struct {
-			Basic int `json:"basic"`
-			Skill int `json:"skill"`
-		} `json:"handCounts"`
-		DeckCounts struct {
-			Basic int `json:"basic"`
-			Skill int `json:"skill"`
-		} `json:"deckCounts"`
-		DiscardCounts struct {
-			Basic int `json:"basic"`
-			Skill int `json:"skill"`
-		} `json:"discardCounts"`
-	} `json:"opponent"`
-	Stage PlayerStage `json:"stage"`
+	Opponents []OpponentState `json:"opponents"`
+	Stage     PlayerStage     `json:"stage"`
+}
+
+// OpponentState 对手状态
+type OpponentState struct {
+	PlayerID   uint `json:"playerId"` // 添加玩家ID
+	Position   int  `json:"position"` // 添加位置信息
+	HandCounts struct {
+		Basic int `json:"basic"`
+		Skill int `json:"skill"`
+	} `json:"handCounts"`
+	DeckCounts struct {
+		Basic int `json:"basic"`
+		Skill int `json:"skill"`
+	} `json:"deckCounts"`
+	DiscardCounts struct {
+		Basic int `json:"basic"`
+		Skill int `json:"skill"`
+	} `json:"discardCounts"`
 }
