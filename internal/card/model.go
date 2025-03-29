@@ -42,11 +42,11 @@ const (
 	InitialSkillDeckSize = 4 // 初始牌库功能牌数量
 )
 
-// PlayerState 玩家的游戏进程状态
-type PlayerState int
+// PlayerStage 玩家的游戏进程状态
+type PlayerStage int
 
 const (
-	Stage1 PlayerState = iota // 初始阶段，功能牌上限3
+	Stage1 PlayerStage = iota // 初始阶段，功能牌上限3
 	Stage2                    // 功能牌上限3
 	Stage3                    // 功能牌上限4
 	Stage4                    // 功能牌上限5
@@ -55,7 +55,7 @@ const (
 )
 
 // GetMaxSkillCards 获取当前阶段的功能牌上限
-func (s PlayerState) GetMaxSkillCards() int {
+func (s PlayerStage) GetMaxSkillCards() int {
 	switch s {
 	case Stage1, Stage2:
 		return 3
@@ -84,9 +84,8 @@ type Card struct {
 // PlayerCardState 玩家在对局中的卡牌状态
 type PlayerCardState struct {
 	ID              uint
-	GameID          uint           // 对局ID
 	PlayerID        uint           // 玩家ID
-	Stage           PlayerState    // 游戏进程阶段
+	Stage           PlayerStage    // 游戏进程阶段
 	HandCardIDs     datatypes.JSON // 手牌ID列表
 	DeckCardIDs     datatypes.JSON // 牌库ID列表
 	DiscardCardIDs  datatypes.JSON // 弃牌堆ID列表
@@ -129,5 +128,5 @@ type CardStateResponse struct {
 			Skill int `json:"skill"`
 		} `json:"discardCounts"`
 	} `json:"opponent"`
-	Stage PlayerState `json:"stage"`
+	Stage PlayerStage `json:"stage"`
 }

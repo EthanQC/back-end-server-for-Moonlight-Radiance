@@ -30,24 +30,23 @@
     ├── internal/              
     │   ├── auth/              # 认证模块
     │   │   ├── middleware.go  # 认证中间件
-    │   │   └── jwt.go         # 认证服务
-    │   ├── game/            
-    │   │   ├── card/          # 卡牌模块
-    │   │   │   ├── model.go 
-    │   │   │   ├── handler.go  
-    │   │   │   └── service.go
-    │   │   ├── battlemap/     # 对战地图模块
-    │   │   │   ├── model.go
-    │   │   │   ├── handler.go 
-    │   │   │   └── service.go 
-    │   │   ├── racemap/       # 竞速地图模块
-    │   │   │   ├── model.go
-    │   │   │   ├── handler.go
-    │   │   │   └── service.go 
-    │   │   └── room/          # 房间模块
-    │   │       ├── model.go
-    │   │       ├── hanlder.go
-    │   │       └── service.go
+    │   │   └── jwt.go         # 认证服务        
+    │   ├── card/          # 卡牌模块
+    │   │   ├── model.go 
+    │   │   ├── handler.go  
+    │   │   └── service.go
+    │   ├── battlemap/     # 对战地图模块
+    │   │   ├── model.go
+    │   │   ├── handler.go 
+    │   │   └── service.go 
+    │   ├── racemap/       # 竞速地图模块
+    │   │   ├── model.go
+    │   │   ├── handler.go
+    │   │   └── service.go 
+    │   ├── room/          # 房间模块
+    │   │   ├── model.go
+    │   │   ├── hanlder.go
+    │   │   └── service.go
     │   └── user/              # 用户模块
     │       ├── model.go    
     │       ├── hanlder.go     

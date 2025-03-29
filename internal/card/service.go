@@ -23,7 +23,6 @@ func NewCardService(db *gorm.DB) *CardService {
 func (s *CardService) InitializePlayerDeck(gameID, playerID uint) error {
 	// 创建初始牌组状态
 	state := PlayerCardState{
-		GameID:   gameID,
 		PlayerID: playerID,
 	}
 
