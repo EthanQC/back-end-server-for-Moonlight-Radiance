@@ -3,11 +3,10 @@
 package common
 
 import (
+	"io"
 	"log"
 	"os"
 )
-
-var logger *log.Logger
 
 // InitLogger 初始化日志记录器
 func InitLogger() {
@@ -15,10 +14,13 @@ func InitLogger() {
 	if err != nil {
 		log.Fatalf("could not open log file: %v", err)
 	}
-	logger = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
-}
+	// 使用 MultiWriter 将日志同时写到文件和控制台
+	multiWriter := io.MultiWriter(file, os.Stdout)
 
-// LogMessage 记录日志
-func LogMessage(message string) {
-	logger.Println(message)
+	// 设置标准库 log 的输出目标为 multiWriter
+	log.SetOutput(multiWriter)
+	// 设置日志格式（带日期、时间、文件名和行号）
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	// 设置日志前缀
+	log.SetPrefix("INFO: ")
 }
