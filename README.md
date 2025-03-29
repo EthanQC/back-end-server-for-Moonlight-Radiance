@@ -80,7 +80,9 @@
     * 登录：`mysql -u root -p`
     * 运行 SQL 脚本：
         * `source migrations/001_init.sql`
-        * `source migrations/002_add_tables.sql`
+        * `source migrations/002_add_card_tables.sql`
+        * `source migrations/003_insert_cards.sql`
+        * `source migrations/004_add_room_tables.sql`
 * 启动服务器：`go run cmd/server/main.go`
 
 #### 测试账号

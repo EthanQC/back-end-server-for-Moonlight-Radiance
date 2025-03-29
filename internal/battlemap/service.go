@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/card"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/card"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 	"gorm.io/gorm"
 )

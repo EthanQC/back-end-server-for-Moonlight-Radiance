@@ -6,11 +6,12 @@ import (
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/websocket"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/auth"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/battlemap"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/card"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/racemap"
-	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/game/room"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/battlemap"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/card"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/racemap"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/room"
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/internal/user"
+	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/pkg/common"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -31,9 +32,6 @@ func SetupRouter() *gin.Engine {
 	}))
 
 	router.SetTrustedProxies([]string{"127.0.0.1"})
-
-	// 静态文件
-	router.Static("/frontend", "./frontend")
 
 	// WebSocket handler
 	wsHandler := websocket.NewHandler()
@@ -68,10 +66,9 @@ func SetupRouter() *gin.Engine {
 		// 房间相关
 		roomGroup := authorized.Group("/room")
 		{
-			roomHandler := room.NewRoomHandler()
+			roomHandler := room.NewRoomHandler(room.NewRoomService(common.DB))
 			roomGroup.POST("/create", roomHandler.CreateRoomHandler)
 			roomGroup.POST("/join", roomHandler.JoinRoomHandler)
-			roomGroup.POST("/endTurn", roomHandler.EndTurnHandler)
 			roomGroup.GET("/state", roomHandler.GetRoomStateHandler)
 		}
 
