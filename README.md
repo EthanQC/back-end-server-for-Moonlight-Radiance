@@ -12,51 +12,51 @@
 目录结构：
 
     ├── api/                    
-        │   ├── http/              # HTTP API定义
-        │   │   ├── routes.go      # 路由定义
-        │   │   ├── handlers/      # API处理器
-        │   └── proto/             # gRPC定义
-        │   │    └── game.proto    # 游戏服务定义
-        │   └── websocket/         # WebSocket API 定义
-        │   │    └── status.go     # 实时状态同步
-        ├── cmd/                   
-        │   └── server/           
-        │       └── main.go        # 主程序入口
-        ├── configs/               
-        │   ├── config.go          # 配置文件
-        ├── docs/                  # 文档
-        │   ├── all.md             # 总文档
-        │   └── card.md            # 卡牌模块文档
-        ├── internal/              
-        │   ├── auth/             # 认证模块
-        │   │   ├── handler.go    # HTTP处理
-        │   │   ├── middleware.go # 认证中间件
-        │   │   └── service.go    # 认证服务
-        │   ├── game/            
-        │   │   ├── card/         # 卡牌系统
-        │   │   │   ├── handler.go 
-        │   │   │   ├── model.go  
-        │   │   │   └── service.go
-        │   │   ├── engine/       # 游戏引擎
-        │   │   │   ├── battle.go
-        │   │   │   └── score.go 
-        │   │   ├── map/       # 游戏引擎
-        │   │   │   ├── handler.go
-        │   │   │   └── model.go 
-        │   │   └── room/         # 房间管理
-        │   │       ├── model.go
-        │   │       └── service.go
-        │   └── user/             # 用户模块
-        │       ├── handler.go    
-        │       ├── model.go     
-        │       └── service.go   
-        └── pkg/                  
-            ├── common/           
-            │   ├── db.go        # 数据库连接
-            │   ├── redis.go     # Redis连接
-            │   └── logger.go    # 日志工具
-            └── util/      
-                └── migrator.go      # SQL 脚本自动执行工具
+    │   ├── http/              # HTTP API定义
+    │   │    └── routes.go     # 路由定义
+    │   └── proto/             # gRPC定义
+    │   │    └── game.proto    # 游戏服务定义
+    │   └── websocket/         # WebSocket API 定义
+    │   │    └── status.go     # 实时状态同步
+    ├── cmd/                   
+    │   └── server/           
+    │        └── main.go       # 主程序入口
+    ├── configs/               
+    │   ├── config.go          # 配置文件
+    ├── docs/                  
+    │   ├── architecture.md    # 服务器架构文档
+    │   ├── features.md        # 服务器功能文档
+    │   └── requirements.md    # 需求文档
+    ├── internal/              
+    │   ├── auth/              # 认证模块
+    │   │   ├── middleware.go  # 认证中间件
+    │   │   └── jwt.go         # 认证服务
+    │   ├── game/            
+    │   │   ├── card/          # 卡牌模块
+    │   │   │   ├── model.go 
+    │   │   │   ├── handler.go  
+    │   │   │   └── service.go
+    │   │   ├── battlemap/     # 对战地图模块
+    │   │   │   ├── model.go
+    │   │   │   ├── handler.go 
+    │   │   │   └── service.go 
+    │   │   ├── racemap/       # 竞速地图模块
+    │   │   │   ├── model.go
+    │   │   │   ├── handler.go
+    │   │   │   └── service.go 
+    │   │   └── room/          # 房间模块
+    │   │       ├── model.go
+    │   │       ├── hanlder.go
+    │   │       └── service.go
+    │   └── user/              # 用户模块
+    │       ├── model.go    
+    │       ├── hanlder.go     
+    │       └── service.go   
+    └── pkg/                  
+        └── common/           
+            ├── db.go          # 数据库连接
+            ├── redis.go       # Redis连接
+            └── logger.go      # 简易日志模块
 
 ## 快速开始
 #### 环境要求
