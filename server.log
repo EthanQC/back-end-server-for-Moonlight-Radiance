@@ -11,3 +11,16 @@ INFO: 2025/03/29 12:19:43 main.go:49: Server is starting on :8080
 INFO: 2025/03/29 17:46:23 db.go:58: Database connected successfully
 INFO: 2025/03/29 17:46:23 redis.go:26: Redis connected successfully.
 INFO: 2025/03/29 17:46:23 main.go:49: Server is starting on :8080
+INFO: 2025/04/04 15:02:45 main.go:25: DB_DSN is required
+INFO: 2025/04/04 15:03:29 db.go:58: Database connected successfully
+INFO: 2025/04/04 15:03:29 redis.go:26: Redis connected successfully.
+INFO: 2025/04/04 15:03:29 main.go:49: Server is starting on :8080
+INFO: 2025/04/04 15:28:03 db.go:58: Database connected successfully
+INFO: 2025/04/04 15:28:03 redis.go:26: Redis connected successfully.
+INFO: 2025/04/04 15:28:03 main.go:49: Server is starting on :8080
+INFO: 2025/04/05 00:00:33 db.go:58: Database connected successfully
+INFO: 2025/04/05 00:00:33 redis.go:26: Redis connected successfully.
+INFO: 2025/04/05 00:00:33 main.go:49: Server is starting on :8080
+INFO: 2025/04/05 22:51:40 db.go:58: Database connected successfully
+INFO: 2025/04/05 22:51:40 redis.go:26: Redis connected successfully.
+INFO: 2025/04/05 22:51:40 main.go:49: Server is starting on :8080

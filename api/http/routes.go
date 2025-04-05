@@ -1,7 +1,6 @@
 package http
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/EthanQC/back-end-server-for-Moonlight-Radiance/api/websocket"
@@ -35,17 +34,6 @@ func SetupRouter() *gin.Engine {
 	wsHandler := websocket.NewHandler()
 	hub := wsHandler.Hub()
 	go hub.Run()
-
-	// 基础路由
-	root := router.Group("/")
-	{
-		root.GET("/health", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"status": "ok"})
-		})
-		root.GET("", func(c *gin.Context) {
-			c.Redirect(http.StatusMovedPermanently, "/frontend/html/login.html")
-		})
-	}
 
 	// 用户相关API
 	userGroup := router.Group("/api/user")
